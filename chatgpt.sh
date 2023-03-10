@@ -24,7 +24,7 @@ request_to_completions() {
 	response=$(curl https://api.openai.com/v1/completions \
 		-sS \
 		-H 'Content-Type: application/json' \
-		-H "Authorization: Bearer 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" \
+		-H "Authorization: Bearer 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" \
 		-d '{
   			"model": "'"$MODEL"'",
   			"prompt": "'"${request_prompt}"'",
@@ -40,7 +40,7 @@ request_to_image() {
 	image_response=$(curl https://api.openai.com/v1/images/generations \
 		-sS \
 		-H 'Content-Type: application/json' \
-		-H "Authorization: Bearer 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" \
+		-H "Authorization: Bearer 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" \
 		-d '{
     		"prompt": "'"${prompt#*image:}"'",
     		"n": 1,
@@ -55,7 +55,7 @@ request_to_chat() {
 	response=$(curl https://api.openai.com/v1/chat/completions \
 		-sS \
 		-H 'Content-Type: application/json' \
-		-H "Authorization: Bearer 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" \
+		-H "Authorization: Bearer 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" \
 		-d '{
             "model": "'"$MODEL"'",
             "messages": [
@@ -229,7 +229,7 @@ if [ -p /dev/stdin ]; then
 elif [ -n "$prompt" ]; then
 	pipe_mode_prompt=${prompt}
 else
-	echo -e "欢迎使用 chatgpt shell版. 如果你需要退出，请输入 '\033[36mexit\033[0m'."
+	echo -e "欢迎使用chatgpt shell版. 如果你需要 '\033[36mexit\033[0m'."
 fi
 
 while $running; do
@@ -268,14 +268,14 @@ while $running; do
 	elif [[ "$prompt" == "models" ]]; then
 		models_response=$(curl https://api.openai.com/v1/models \
 			-sS \
-			-H "Authorization: Bearer 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")
+			-H "Authorization: Bearer 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")
 		handle_error "$models_response"
 		models_data=$(echo $models_response | jq -r -C '.data[] | {id, owned_by, created}')
 		echo -e "${CHATGPT_CYAN_LABEL}This is a list of models currently available at OpenAI API:\n ${models_data}"
 	elif [[ "$prompt" =~ ^model: ]]; then
 		models_response=$(curl https://api.openai.com/v1/models \
 			-sS \
-			-H "Authorization: Bearer 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")
+			-H "Authorization: Bearer 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")
 		handle_error "$models_response"
 		model_data=$(echo $models_response | jq -r -C '.data[] | select(.id=="'"${prompt#*model:}"'")')
 		echo -e "${CHATGPT_CYAN_LABEL}Complete details for model: ${prompt#*model:}\n ${model_data}"
